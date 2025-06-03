@@ -9,7 +9,7 @@ public class CarController : MonoBehaviour
     public float speed = 5f;
     private Vector3 moveDir;
     private bool isMoving = false;
-    public Image spriteImage; // the quad renderer on the roof
+    public Image upSprite, rightTurnSprite, uTurnSprite, leftTurnSprite; // the quad renderer on the roof
     public Sprite[] DirSign;     // the quad renderer on the roof
     public ArrowType arrowType;
     private List<Vector3> positionHistory = new List<Vector3>();
@@ -207,25 +207,25 @@ public class CarController : MonoBehaviour
         switch (arrowType)
         {
             case ArrowType.Up:
-                spriteImage.sprite = DirSign[0];
+                upSprite.gameObject.SetActive(true);
                 break;
             case ArrowType.Down:
-                spriteImage.sprite = DirSign[0];
+                upSprite.gameObject.SetActive(true);
                 break;
             case ArrowType.Left:
-                spriteImage.sprite = DirSign[0];
+                upSprite.gameObject.SetActive(true);
                 break;
             case ArrowType.Right:
-                spriteImage.sprite = DirSign[0];
+                upSprite.gameObject.SetActive(true);
                 break;
             case ArrowType.LeftTurn:
-                spriteImage.sprite = DirSign[0];
+                leftTurnSprite.gameObject.SetActive(true);
                 break;
             case ArrowType.RightTurn:
-                spriteImage.sprite = DirSign[0];
+                rightTurnSprite.gameObject.SetActive(true);
                 break;
             case ArrowType.UTurn:
-                spriteImage.sprite = DirSign[0];
+                uTurnSprite.gameObject.SetActive(true);
                 break;
         }
     }
@@ -258,33 +258,33 @@ public class CarController : MonoBehaviour
         isRewinding = true;
     }
 
-void OnDrawGizmosSelected()
-{
-    if (usePath && pathPoints != null && pathIndex < pathPoints.Count)
+    void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.yellow;
-        for (int i = pathIndex; i < pathPoints.Count - 1; i++)
+        if (usePath && pathPoints != null && pathIndex < pathPoints.Count)
         {
-            Gizmos.DrawLine(pathPoints[i], pathPoints[i + 1]);
+            Gizmos.color = Color.yellow;
+            for (int i = pathIndex; i < pathPoints.Count - 1; i++)
+            {
+                Gizmos.DrawLine(pathPoints[i], pathPoints[i + 1]);
+            }
         }
     }
-}
 
-public bool HasPath()
-{
-    return usePath && pathPoints != null && pathPoints.Count > 1 && pathIndex < pathPoints.Count;
-}
+    public bool HasPath()
+    {
+        return usePath && pathPoints != null && pathPoints.Count > 1 && pathIndex < pathPoints.Count;
+    }
 
-// Method to return the specific path that the car is currently traveling on.
-public List<Vector3> GetPathPoints()
-{
-    return pathPoints;
-}
+    // Method to return the specific path that the car is currently traveling on.
+    public List<Vector3> GetPathPoints()
+    {
+        return pathPoints;
+    }
 
-public bool IsMoving()
-{
-    return isMoving;
-}
+    public bool IsMoving()
+    {
+        return isMoving;
+    }
 
 
 

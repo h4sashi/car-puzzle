@@ -9,11 +9,7 @@ public class PauseManager : MonoBehaviour
 
     public GameObject pausePanel, settingsBtn, btmPanel;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    public GameObject[] carControllers;
 
     // Update is called once per frame
     void Update()
@@ -30,6 +26,16 @@ public class PauseManager : MonoBehaviour
 
     public void PauseGame()
     {
+        carControllers = GameObject.FindGameObjectsWithTag("Car");
+        foreach (GameObject carController in carControllers)
+        {
+            carController.GetComponent<BoxCollider>().enabled = false; // Disable the BoxCollider to prevent interaction
+            CarController cc = carController.GetComponent<CarController>();
+            if (cc != null)
+            {
+                cc.enabled = false; // Disable the CarController script
+            }
+        }
         isPaused = true;
         Time.timeScale = 0f;
         settingsBtn.SetActive(false);
@@ -40,33 +46,55 @@ public class PauseManager : MonoBehaviour
 
     public void Resume()
     {
+        carControllers = GameObject.FindGameObjectsWithTag("Car");
+        foreach (GameObject carController in carControllers)
+        {
+        
+            CarController cc = carController.GetComponent<CarController>();
+            if (cc != null)
+            {
+                cc.enabled = true; // Enable the CarController script
+                cc.gameObject.GetComponent<BoxCollider>().enabled = true; // Disable the BoxCollider to prevent interaction
+            }
+        }
         isPaused = false;
         Time.timeScale = 1f;
+
+        if (SceneManager.GetActiveScene().name == "1" || SceneManager.GetActiveScene().name == "2" ||
+           SceneManager.GetActiveScene().name == "3")
+        {
+            btmPanel.SetActive(false); // Do not resume if we are in the Home scene
+        }
+        else
+        {
+            btmPanel.SetActive(true);
+        }
+
         settingsBtn.SetActive(true);
-        btmPanel.SetActive(true);
-        pausePanel.SetActive(false);
+        pausePanel.SetActive(false); // Resume the bottom panel if we are not in the Home scene
+
     }
 
-     public void Restart()
+    public void Restart()
     {
-      SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-    
-     public void ToggleSound()
+
+    public void ToggleSound()
     {
-      
+
     }
 
-     public void ToggleMusic()
+    public void ToggleMusic()
     {
-      
+
     }
 
-     public void Home()
+    public void Home()
     {
-       SceneManager.LoadScene("Home");
+        SceneManager.LoadScene("Home");
     }
 
 
-    
+
 }

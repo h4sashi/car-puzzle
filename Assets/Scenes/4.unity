@@ -405,7 +405,7 @@ MonoBehaviour:
     - {fileID: 1869756563}
     - {fileID: 1951395937}
     - {fileID: 1357443175}
-    arrow: 5
+    arrow: 4
     colorType: 0
   - controlPoints:
     - {fileID: 399397021}
@@ -6645,6 +6645,7 @@ MonoBehaviour:
   pausePanel: {fileID: 945672419}
   settingsBtn: {fileID: 1705609791}
   btmPanel: {fileID: 907345712}
+  carControllers: []
 --- !u!4 &2009450195
 Transform:
   m_ObjectHideFlags: 0
