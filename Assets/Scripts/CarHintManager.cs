@@ -10,6 +10,7 @@ public class CarHintManager : MonoBehaviour
     public bool isHintCheckRequested = false;
     public bool hintCheckDone = false;
 
+
     void Update()
     {
         if (isHintCheckRequested && !hintCheckDone)
@@ -96,7 +97,7 @@ private IEnumerator BlinkImage(Image image)
 
     while (true)
     {
-        
+
 if(image == null) yield break; // Exit if image is destroyed\\
 
 

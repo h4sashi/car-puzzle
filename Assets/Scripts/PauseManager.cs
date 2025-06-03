@@ -7,7 +7,7 @@ public class PauseManager : MonoBehaviour
 {
     public bool isPaused = false;
 
-    public GameObject pausePanel, settingsBtn;
+    public GameObject pausePanel, settingsBtn, btmPanel;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +33,7 @@ public class PauseManager : MonoBehaviour
         isPaused = true;
         Time.timeScale = 0f;
         settingsBtn.SetActive(false);
+        btmPanel.SetActive(false);
         pausePanel.SetActive(true);
 
     }
@@ -42,6 +43,7 @@ public class PauseManager : MonoBehaviour
         isPaused = false;
         Time.timeScale = 1f;
         settingsBtn.SetActive(true);
+        btmPanel.SetActive(true);
         pausePanel.SetActive(false);
     }
 
