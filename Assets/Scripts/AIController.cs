@@ -20,8 +20,16 @@ public class AIController : MonoBehaviour
     private int currentIndex = 0;
     private bool isWaiting = false;
 
+    private Animator animator;
+
     void Awake()
     {
+        animator = GetComponent<Animator>();
+        if (animator == null)
+        {
+            Debug.LogWarning("AIController requires an Animator component on the same GameObject for animations.");
+        }
+
         agent = GetComponent<NavMeshAgent>();
         if (agent == null)
         {
@@ -44,12 +52,20 @@ public class AIController : MonoBehaviour
 
     void Update()
     {
-        if (waypoints.Count == 0 || isWaiting) return;
+        if (waypoints.Count == 0) return;
+
+        // Update animation state
+        bool isMoving = !isWaiting && agent.remainingDistance > arriveThreshold;
+        if (animator != null)
+        {
+            animator.SetBool("isMove", isMoving);
+        }
+
+        if (isWaiting) return;
 
         // Check if we've essentially "arrived" at the current waypoint
         if (!agent.pathPending && agent.remainingDistance <= arriveThreshold)
         {
-            // Start waiting before moving to the next
             StartCoroutine(WaitAndMoveToNext());
         }
     }
@@ -64,12 +80,15 @@ public class AIController : MonoBehaviour
     private IEnumerator WaitAndMoveToNext()
     {
         isWaiting = true;
-        // Optionally: zero‐out agent velocity/animation while waiting
         agent.isStopped = true;
+
+        if (animator != null)
+        {
+            animator.SetBool("isMove", false);
+        }
 
         yield return new WaitForSeconds(waitTimeAtWaypoint);
 
-        // Advance index (wrap around if at end)
         currentIndex = (currentIndex + 1) % waypoints.Count;
 
         agent.isStopped = false;
